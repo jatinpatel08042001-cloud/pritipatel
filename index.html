@@ -148,13 +148,16 @@ function hearts(){
 }
 
 function showGame(){
-  document.getElementById("card").innerHTML += `
-    <div class="game">
-      <h3>Priti, will you be my Valentine? 💖</h3>
-      <button onclick="yes()">YES ❤️</button>
-      <button onclick="no()" id="noBtn">NO 🙈</button>
-    </div>
-  `;
+  const gameDiv = document.createElement("div");
+  gameDiv.className = "game";
+  gameDiv.innerHTML = `<h3>Priti, will you be my Valentine? 💖</h3>
+                       <button id="yesBtn">YES ❤️</button>
+                       <button id="noBtn">NO 🙈</button>`;
+  document.getElementById("card").appendChild(gameDiv);
+
+  // Attach events dynamically (works on mobile)
+  document.getElementById("yesBtn").addEventListener("click", yes);
+  document.getElementById("noBtn").addEventListener("click", no);
 }
 
 function yes(){
@@ -264,8 +267,7 @@ function no(){
   btn.style.top=Math.random()*70+"vh";
 }
 
-document.getElementById("startBtn").onclick = startStory;
-};
+document.getElementById("startBtn").addEventListener("click", startStory);
 </script>
 </body>
 </html>
