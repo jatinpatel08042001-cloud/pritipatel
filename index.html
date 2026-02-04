@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Priti ❤️</title>
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+  transition: background 1s ease;
+}
+
+.card {
+  background: rgba(0,0,0,0.25);
+  padding: 25px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 360px;
+  transition: background 1s ease;
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 25px;
+  border: none;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+}
+
+.heart {
+  position: absolute;
+  font-size: 22px;
+  animation: float 4s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-600px); opacity: 0; }
+}
+
+.typing {
+  min-height: 110px;
+  white-space: pre-wrap;
+}
+
+.game button { margin: 10px; }
+.hidden { display: none; }
+
+.sparkle {
+  position: absolute;
+  font-size: 20px;
+  animation: sparkle 1.5s linear forwards;
+}
+
+@keyframes sparkle {
+  0% { transform: scale(0) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1.5) rotate(360deg); opacity: 0; }
+}
+
+.glow { animation: glow 1.5s infinite alternate; }
+
+@keyframes glow {
+  from { box-shadow: 0 0 10px #ff4d6d; }
+  to { box-shadow: 0 0 25px #fff; }
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.8;
+  top: -10px;
+  animation: drop 4s linear infinite;
+  border-radius: 50%;
+}
+
+@keyframes drop {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
+}
+</style>
+</head>
+<body style="background: linear-gradient(135deg, #ff758c, #ff7eb3);">
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+  <h2>Hi Priti ❤️</h2>
+  <div class="typing" id="text"></div>
+  <button id="startBtn">Tap to begin</button>
+</div>
+
+<script>
+window.onload = function() {
+let page = 0;
+const story = [
+  "Once upon a time…",
+  "There was a girl named Priti 💕",
+  "She didn’t even realise…",
+  "How someone’s world became brighter because of her.",
+  "",
+  "Every smile of hers felt like magic.",
+  "Every message from her made the heart race.",
+  "",
+  "And slowly…",
+  "That feeling turned into love ❤️"
+];
+
+let line = 0;
+
+function startStory() {
+  document.getElementById("startBtn").remove();
+  document.getElementById("music").play().catch(()=>{}); // play safely
+  typeLine();
+  hearts();
+}
+
+function typeLine() {
+  if(line<story.length){
+    document.getElementById("text").innerHTML += story[line]+"\n";
+    line++;
+    setTimeout(typeLine,900);
+  } else { showGame(); }
+}
+
+function hearts(){
+  setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.bottom="0px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),4000);
+  },350);
+}
+
+function showGame(){
+  document.getElementById("card").innerHTML += `
+    <div class="game">
+      <h3>Priti, will you be my Valentine? 💖</h3>
+      <button onclick="yes()">YES ❤️</button>
+      <button onclick="no()" id="noBtn">NO 🙈</button>
+    </div>
+  `;
+}
+
+function yes(){
+  sparkleExplosion();
+  document.getElementById("card").innerHTML = `
+    <h2 class="glow">❤️ Happy Valentine’s Day ❤️</h2>
+    <p>Priti, you didn’t just say YES…</p>
+    <p>You became my favourite part of every day 💕</p>
+    <p style="margin-top:15px;">💋 One kiss sent just for you 💋</p>
+    <p style="font-size:14px;opacity:0.9;">(Tap anywhere)</p>
+  `;
+  document.body.onclick = nextPage;
+}
+
+function nextPage(){
+  page++;
+  document.getElementById("card").innerHTML="";
+  document.body.onclick=null;
+
+  switch(page){
+    case 1: // Secret message
+      document.body.style.background="linear-gradient(135deg, #ff758c, #ffb6c1)";
+      document.getElementById("card").innerHTML = `
+        <h2>💖 My Secret 💖</h2>
+        <p>I may not say it every time…</p>
+        <p>But I choose you.</p>
+        <p>Every day. Every version of me.</p>
+        <p style="margin-top:20px;">(Tap to continue)</p>`;
+      document.body.onclick=nextPage;
+      break;
+    case 2: // Confetti + message
+      document.body.style.background="linear-gradient(135deg, #ff9a76, #ffc371)";
+      for(let i=0;i<50;i++){
+        const c=document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*100+"vw";
+        c.style.background=["#fff","#ff4d6d","#ffeb3b","#ff69b4"][Math.floor(Math.random()*4)];
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),4000);
+      }
+      document.getElementById("card").innerHTML = `<h2>🎉 You are amazing, Priti! 🎉</h2>
+        <p>Every moment with you is magical 💖</p>
+        <p>(Tap to continue)</p>`;
+      document.body.onclick=nextPage;
+      break;
+    case 3: // Emoji hearts page
+      document.body.style.background="linear-gradient(135deg, #ff4d6d, #ff85a2)";
+      for(let i=0;i<20;i++){
+        const heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML=["💖","💘","💕","💞"][Math.floor(Math.random()*4)];
+        heart.style.left=Math.random()*100+"vw";
+        heart.style.bottom="0px";
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(),4000);
+      }
+      document.getElementById("card").innerHTML = `<h2>💞 Emoji Love 💞</h2>
+        <p>All these hearts are for you, Priti 💕</p>
+        <p>(Tap to continue)</p>`;
+      document.body.onclick=nextPage;
+      break;
+    case 4: // Romantic message with Monday joke
+      document.body.style.background="linear-gradient(135deg, #ff6699, #ffccff)";
+      document.getElementById("card").innerHTML = `<h2>💌 Sweet Words 💌</h2>
+        <p>Priti, every moment with you feels like a dream come true.</p>
+        <p>You make me smile even on cloudy days ☀️</p>
+        <p>Also… you are amazing 😍 except irritating me on Monday evening 😆</p>
+        <p>(Tap to continue)</p>`;
+      document.body.onclick=nextPage;
+      break;
+    case 5: // Romantic message 2
+      document.body.style.background="linear-gradient(135deg, #ff3366, #ff99cc)";
+      document.getElementById("card").innerHTML = `<h2>🌹 Just for You 🌹</h2>
+        <p>You make my life brighter, my heart lighter, and my world happier 💖</p>
+        <p>Being with you is my favorite place to be 💕</p>
+        <p>(Tap to continue)</p>`;
+      document.body.onclick=nextPage;
+      break;
+    case 6: // Final message
+      document.body.style.background="linear-gradient(135deg, #ff1a75, #8b008b)";
+      document.getElementById("card").innerHTML = `
+        <h2 class="glow">I LOVE YOU, PRITI ❤️</h2>
+        <p>Forever yours,</p>
+        <p style="font-size:20px;font-weight:bold;">Purv 💘</p>
+        <p>Happy Valentine’s Day 💖</p>`;
+      sparkleExplosion();
+      break;
+  }
+}
+
+function sparkleExplosion(){
+  for(let i=0;i<25;i++){
+    const s=document.createElement("div");
+    s.className="sparkle";
+    s.innerHTML="✨";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1500);
+  }
+}
+
+function no(){
+  const btn=document.getElementById("noBtn");
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*70+"vw";
+  btn.style.top=Math.random()*70+"vh";
+}
+
+document.getElementById("startBtn").onclick = startStory;
+};
+</script>
+</body>
+</html>
